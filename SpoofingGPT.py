@@ -34,11 +34,8 @@ def block_traffic():
             # לא שולחים את הפקטה
             pass
 
-
-
-if __name__ == "__main__":
+def Start(target):
     # כתובות IP של הקורבן, הראוטר והתוקף
-    target = "192.168.1.238"
     host = "192.168.1.1"
     attacker = "192.168.1.100"
     verbose = True
@@ -58,3 +55,6 @@ if __name__ == "__main__":
         print("[!] Detected CTRL+C ! Restoring network...")
         restore(target, host)
         restore(host, target)
+
+
+
