@@ -26,8 +26,8 @@ def restore(target_ip, host_ip, verbose=True):
         print(f"[+] Sent to {target_ip} : {host_ip} is-at {host_mac}")
 
 # פונקצייה שחוסמת את הפקטות
-def block_traffic(filter_rule="ip and (udp.DstPort == 443 or udp.DstPort == 80)"):
-    with WinDivert(filter_rule) as w:
+def block_traffic():
+    with WinDivert() as w:
         print("[*] Blocking started...")
         for packet in w:
             print(f"[BLOCKED] {packet.src_addr} -> {packet.dst_addr}")

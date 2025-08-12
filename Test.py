@@ -13,6 +13,7 @@ def scan(target, DefaultGateway, TargetDict):
     if response == 0:
         print(target + " is live")
         TargetDict[target] = get_mac_address(ip=target)
+    print(response)
 
 def spoof(target_ip, host_ip, verbose = True):
     target_mac  = get_mac_address(ip = target_ip)
@@ -37,7 +38,7 @@ if "__main__" == __name__:
 
     Manager = multiprocessing.Manager()
     TargetDict = Manager.dict()
-
+    #
     SplitedDefGate = DefaultGateway.split(".") # ["192","168","1","1"]
     NetAddr = SplitedDefGate[0] + "." + SplitedDefGate[1] + "." + SplitedDefGate[2] + "." # 192.168.1.
 
@@ -52,28 +53,30 @@ if "__main__" == __name__:
     for process in processes:
         process.join()
 
-    #for x,y in TargetDict.items():
-    #    if TargetDict[x] != None:
-     #       print(f"{x} : {y}")
+    for x,y in TargetDict.items():
+       if TargetDict[x] != None:
+           print(f"{x} : {y}")
+    #
+    # attacks = []
+    # restores = []
+    #
+    # try:
+    #     while True:
+    #         for key, value in TargetDict.items():
+    #             a = multiprocessing.Process(target=spoof, args = (TargetAddr,key, verbose))
+    #             a.start()
+    #             attacks.append(p)
+    #         for attack in attacks:
+    #             attack.join
+    #         time.sleep(1)
+    # except KeyboardInterrupt:
+    #     print ("!Detected CTRL+C")
+    #     for key, value in sorted(TargetDict.items()):
+    #         r = multiprocessing.Process(target=spoof, args = (TargetAddr,key, verbose))
+    #         r.start()
+    #         restores.append(r)
+    #     for restore in restores:
+    #         restore.join()
+    #     time.sleep(1)
 
-    attacks = []
-    restores = []
 
-    try:
-        while True:
-            for key, value in TargetDict.items():
-                a = multiprocessing.Process(target=spoof, args = (TargetAddr,key, verbose))
-                a.start()
-                attacks.append(p)
-            for attack in attacks:
-                attack.join
-            time.sleep(1)
-    except KeyboardInterrupt:
-        print ("!Detected CTRL+C")
-        for key, value in sorted(TargetDict.items()):
-            r = multiprocessing.Process(target=spoof, args = (TargetAddr,key, verbose))
-            r.start()
-            restores.append(r)
-        for restore in restores:
-            restore.join()
-        time.sleep(1)
